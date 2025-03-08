@@ -1,40 +1,92 @@
-<!doctype html>
-<html>
-    <head>
-        <link rel="icon" type="image/x-icon" href="favicon.ico">
-        <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
-        <style>
-            h1 {
-                font-family: Pacifico, sans-serif;
-                font-size: 4em;
-                color: #3eb5f1;
-                margin: 0;
-            }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ElohimStudio 3D Portfolio</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <nav class="main-nav">
+      <a href="#" class="logo">ElohimStudio</a>
+      <ul>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
 
-            h2 {
-                font-weight: 300;
-                font-family: sans-serif;
-            }
+  <!-- Hero / Intro Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Introducing the Innovative 3D Portfolio Experience</h1>
+      <p>
+        Welcome to ElohimStudio’s cutting-edge 3D portfolio, where minimal, grayscale aesthetics
+        blend with modern design to showcase creative work.
+      </p>
+      <a href="#portfolio" class="btn">Explore Now</a>
+    </div>
+  </section>
 
-            .centered {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                text-align: center;
-            }
+  <!-- About Section -->
+  <section id="about" class="about-section">
+    <h2>About Us</h2>
+    <div class="about-content">
+      <img src="assets/images/sample-3d-1.jpg" alt="3D abstract shapes" />
+      <div class="about-text">
+        <h3>Meet the Creative</h3>
+        <p>
+          At ElohimStudio, we embrace the power of design and technology to push
+          the boundaries of creativity. Our mission is to transform ideas into
+          immersive 3D experiences that captivate and inspire.
+        </p>
+      </div>
+    </div>
+  </section>
 
-            #ferris {
-                width: 75%;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="centered">
-            <h1>200 Success</h1>
-            <h2>Hello World! Welcome to your Workers Site.</h2>
-            <img id="ferris" alt="a happy crab is wearing a cowboy hat and holding a lasso. 200 success." src="./img/200-wrangler-ferris.gif">
-        </div>
-    </body>
+  <!-- Portfolio Section -->
+  <section id="portfolio" class="portfolio-section">
+    <h2>Portfolio Experience</h2>
+    <p>
+      Explore our latest 3D projects—clean, modern visuals showcasing
+      photography, product mockups, and architectural concepts.
+    </p>
+    <div class="gallery">
+      <figure>
+        <img src="assets/images/sample-3d-2.jpg" alt="3D mockup 1" />
+        <figcaption>3D Concept One</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/images/sample-3d-3.jpg" alt="3D mockup 2" />
+        <figcaption>3D Concept Two</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/images/sample-3d-1.jpg" alt="3D mockup 3" />
+        <figcaption>3D Concept Three</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact-section">
+    <h2>Contact Us</h2>
+    <p>Ready to bring your ideas to life? Let’s connect!</p>
+    <form class="contact-form">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit" class="btn">Send Message</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>&copy; 2025 ElohimStudio. All rights reserved.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
 </html>
