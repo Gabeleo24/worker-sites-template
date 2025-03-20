@@ -1,7 +1,10 @@
 name = "elohimstudio"
-main = "src/worker.js"
-compatibility_date = "2025-03-19"
+account_id = "618eff06f5fe8b901b52c935582083d2"
+compatibility_date = "2025-03-20"
 
-workers_dev = false
+[site]
+bucket = "./public"
+entry-point = "./src"
+
 route = "elohimstudio.co/*"
-zone_id = "e5eba835459a32da5afcdb8a159b3b0e"
+workers_dev = false

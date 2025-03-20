@@ -1,604 +1,414 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ElohimStudio.co – Portfolio Showcase</title>
+  <meta charset="UTF-8">
+  <title>ElohimStudio – Portfolio</title>
 
-  <!-- Google Font: Inter -->
+  <!-- Google Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" />
 
-  <!-- Optional: Favicon -->
-  <link rel="icon" href="https://via.placeholder.com/32" type="image/png" />
+  <!-- Leaflet CSS (for interactive map) -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-o9N1+8PVpp3C+gpIBG1P0p2VAc/7Q1MY3RzjF2R3rSI="
+    crossorigin=""
+  />
 
-  <!-- Inline CSS for Demo Purposes -->
   <style>
-    /* Global Reset and Typography */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* BASIC RESET & GLOBAL STYLES */
+    * {
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box;
+    }
     html, body {
-      font-family: 'SF Pro Display', 'Inter', sans-serif; /* Updated to use SF Pro Display as primary */
-      background-color: #f9f9f9;
-      color: #333;
-      line-height: 1.6;
+      font-family: 'Inter', sans-serif;
+      background-color: #fff;
+      color: #000;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
-    a { color: #0066ff; text-decoration: none; transition: color 0.2s ease; }
-    a:hover { color: #004ccc; }
-    h1, h2, h3, h4, h5, h6 { font-weight: 600; color: #111; }
-    img { max-width: 100%; display: block; }
-    button { cursor: pointer; }
-    .btn {
-      display: inline-block;
-      padding: 0.75rem 1.25rem;
-      border: none;
-      border-radius: 4px;
-      font-weight: 600;
+    a {
+      color: inherit;
       text-decoration: none;
-      transition: background-color 0.2s ease;
+      transition: color 0.2s ease;
     }
-    .btn-primary { background-color: #0066ff; color: #fff; }
-    .btn-primary:hover { background-color: #004ccc; }
-    .btn-secondary { background-color: #eee; color: #333; }
-    .btn-secondary:hover { background-color: #ddd; }
+    a:hover {
+      opacity: 0.8;
+    }
+    button {
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
 
-    /* Header */
+    /* HEADER */
     header {
-      background-color: #fff;
-      border-bottom: 1px solid #e2e2e2;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .header-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .logo { font-size: 1.25rem; font-weight: 700; color: #111; }
-    .nav ul { list-style: none; display: flex; gap: 1rem; }
-    .nav a { font-weight: 500; color: #333; }
-    .nav a:hover { color: #0066ff; }
-
-    /* Hero Section */
-    .hero {
-      background: linear-gradient(135deg, #fff, #f9f9f9);
-      padding: 4rem 1rem;
-      text-align: center;
-    }
-    .hero-content { max-width: 800px; margin: 0 auto; }
-    .hero-content h1 { font-size: 2.5rem; margin-bottom: 1rem; }
-    .hero-content p { font-size: 1.125rem; color: #555; margin-bottom: 2rem; }
-
-    /* About Section */
-    .about-section {
-      max-width: 800px;
-      margin: 3rem auto;
-      padding: 0 1rem;
-      text-align: center;
-    }
-    .about-section h2 { font-size: 2rem; margin-bottom: 1rem; }
-    .about-section p { color: #555; line-height: 1.6; }
-
-    /* Packages Section */
-    .packages-section {
-      max-width: 1200px;
-      margin: 3rem auto;
-      padding: 0 1rem;
-    }
-    .packages-section .section-header { text-align: center; margin-bottom: 2rem; }
-    .packages-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 2rem;
-    }
-    .package-card {
-      background-color: #fff;
-      border: 1px solid #e2e2e2;
-      border-radius: 6px;
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: box-shadow 0.2s ease;
-    }
-    .package-card:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.06); }
-    .package-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 0.75rem;
-    }
-    .package-header h3 { font-size: 1.25rem; }
-    .hours {
-      font-size: 0.85rem;
-      color: #0066ff;
-      background: #f0f6ff;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-    }
-    .price {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #0066ff;
-      margin: 0.75rem 0;
-    }
-    .description { color: #666; margin-bottom: 1rem; }
-    .addons h4 { font-size: 1rem; margin-bottom: 0.5rem; font-weight: 600; }
-    .addon-items { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .addon-card {
-      background-color: #f7f7f7;
-      border-radius: 4px;
-      padding: 0.5rem;
-      text-align: center;
-      width: 80px;
-      flex: 0 0 auto;
-      transition: background 0.2s;
-    }
-    .addon-card:hover { background-color: #eaeaea; }
-    .addon-card img { max-width: 100%; border-radius: 3px; margin-bottom: 0.25rem; }
-    .addon-card p { font-size: 0.75rem; color: #444; }
-
-    /* Reviews Section */
-    .reviews-section {
-      max-width: 1200px;
-      margin: 3rem auto;
-      padding: 0 1rem;
-      text-align: center;
-    }
-    .reviews-stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      justify-content: center;
-      margin-top: 2rem;
-    }
-    .stat-box {
-      background: #fff;
-      border: 1px solid #e2e2e2;
-      border-radius: 6px;
-      padding: 1.5rem;
-      min-width: 200px;
-    }
-    .stat-box h3 { font-size: 1rem; margin-bottom: 0.5rem; color: #555; }
-    .stat-box p { font-size: 2rem; font-weight: 700; color: #0066ff; }
-
-    /* Availability Section */
-    .availability-section {
-      max-width: 600px;
-      margin: 3rem auto;
-      padding: 0 1rem;
-      text-align: center;
-    }
-    .calendar-container { margin-bottom: 2rem; }
-    .calendar-container input[type='date'] {
-      padding: 0.5rem;
-      font-size: 1rem;
-    }
-
-    /* Contact Section */
-    .contact-section {
-      max-width: 600px;
-      margin: 3rem auto;
-      padding: 0 1rem;
-    }
-    .contact-form {
-      display: grid;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-    .form-group label {
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-      display: inline-block;
-    }
-    .form-group input,
-    .form-group textarea {
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 1rem;
-    }
-
-    /* Footer */
-    footer {
-      border-top: 1px solid #e2e2e2;
-      padding: 1rem;
-      text-align: center;
-      margin-top: 3rem;
-      color: #999;
-    }
-
-    /* Modal Styles (for both package and sales modals) */
-    .modal-overlay {
       position: fixed;
       top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.4);
-      display: none;
+      width: 100%;
+      z-index: 999;
+      background: #fff;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      z-index: 999;
+      padding: 4rem 2rem 0 2rem;
+      text-align: center;
     }
-    .modal-overlay.active { display: flex; }
-    .modal-content {
-      background: #fff;
-      border-radius: 6px;
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      max-width: 900px;
+      line-height: 1.2;
+    }
+    .hero p {
+      font-size: 1.125rem;
       max-width: 600px;
-      width: 90%;
-      padding: 1.5rem;
-      position: relative;
+      margin: 0 auto 2rem auto;
+      color: #555;
     }
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
+    .btn-cta {
+      display: inline-block;
+      font-weight: 700;
+      padding: 0.75rem 1.5rem;
+      border: 1px solid #000;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
     }
-    .modal-header h3 { margin: 0; font-size: 1.5rem; }
-    .modal-close {
-      background: transparent;
-      border: none;
-      font-size: 1.25rem;
-      cursor: pointer;
-      line-height: 1;
+    .btn-cta:hover {
+      background: #000;
+      color: #fff;
     }
-    .modal-body p { margin-bottom: 1rem; color: #444; }
-    .modal-body .addons-list {
-      display: grid;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-    .modal-body .addon-item {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .modal-body .addon-item label { cursor: pointer; color: #444; }
-    .modal-actions { text-align: right; }
 
-    /* Sales Modal Specific Styles */
-    .sales-modal {
+    /* ABOUT SECTION */
+    .about {
+      padding: 6rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .about h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .about p {
+      color: #555;
+      max-width: 700px;
+      margin: 0 auto 2rem auto;
+      line-height: 1.6;
+    }
+
+    /* WORKS SECTION */
+    .works {
+      padding: 6rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .works h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .works p {
+      color: #555;
+      max-width: 700px;
+      margin-bottom: 2rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .grid-item {
+      background: #fafafa;
+      border: 1px solid #eee;
+      padding: 2rem;
+      transition: transform 0.2s ease;
+    }
+    .grid-item:hover {
+      transform: translateY(-5px);
+    }
+    .grid-item h3 {
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    .grid-item p {
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* CONTACT SECTION */
+    .contact {
+      padding: 6rem 2rem;
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .contact h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .contact p {
+      color: #555;
+      margin-bottom: 2rem;
+    }
+    .contact form {
+      text-align: left;
+    }
+    .contact form div {
+      margin-bottom: 1rem;
+    }
+    .contact label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+    .contact input,
+    .contact textarea {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .contact button {
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      border: 1px solid #000;
+      background: #000;
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .contact button:hover {
+      background: #333;
+    }
+
+    /* LOCATION SECTION */
+    .location-section {
+      padding: 4rem 2rem;
+      text-align: center;
+      background: #fafafa;
+      border-top: 1px solid #eee;
+    }
+    .location-section h2 {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+    .location-section p {
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
+    /* Leaflet map container */
+    #map {
+      width: 100%;
+      height: 400px;
+      max-width: 900px;
+      margin: 0 auto;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
       background: #fff;
-      border-radius: 6px;
-      max-width: 500px;
-      width: 90%;
-      padding: 1.5rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border-top: 1px solid #eee;
+    }
+    footer p {
+      color: #777;
+      font-size: 0.9rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      nav ul {
+        gap: 1rem;
+      }
     }
   </style>
 </head>
 <body>
+
   <!-- HEADER -->
   <header>
-    <div class="header-inner">
-      <div class="logo">ElohimStudio.co</div>
-      <nav class="nav">
-        <ul>
-          <li><a href="#hero">Home</a></li>
-          <li><a href="#packages">Packages</a></li>
-          <li><a href="#reviews">Reviews</a></li>
-          <li><a href="#availability">Availability</a></li>
-        </ul>
-      </nav>
-    </div>
+    <div class="logo">ElohimStudio</div>
+    <nav>
+      <ul>
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#works">Works</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#location">Find Us</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <!-- HERO SECTION -->
+  <!-- HERO -->
   <section id="hero" class="hero">
-    <div class="hero-content">
-      <h1>Welcome to ElohimStudio.co – Your Photography Portfolio Showcase</h1>
-      <p>Where minimal, creative aesthetics blend with modern design to showcase your vision.</p>
-      <a href="#packages" class="btn btn-primary">Explore Packages</a>
-    </div>
+    <h1>Capturing Life’s Moments in Orange County & Beyond</h1>
+    <p>
+      We specialize in weddings, events, and creative portrait sessions, proudly based in Orange County yet
+      open for travel photography across different states.
+    </p>
+    <a href="#about" class="btn-cta">Learn More</a>
   </section>
 
   <!-- ABOUT SECTION -->
-  <section class="about-section">
-    <h2>About ElohimStudio.co</h2>
+  <section id="about" class="about">
+    <h2>Our Dedication</h2>
     <p>
-      ElohimStudio.co is proudly based in <strong>Orange County</strong>, offering professional photography services that capture life's most precious moments. We specialize in weddings, events, and creative portrait sessions, and we’re <strong>open for travel photography across different states</strong>. Our mission is to combine artistry and technology to push the boundaries of creativity, transforming ideas into immersive experiences that spark inspiration.
+      ElohimStudio.co is dedicated to combining artistry and technology to push the boundaries of creativity,
+      transforming ideas into immersive experiences that spark inspiration for every client. Whether it’s
+      capturing intimate wedding moments or crafting high-fashion editorials, our passion lies in telling
+      authentic stories through the lens.
+    </p>
+    <p>
+      From the beaches of Southern California to the mountains of Colorado, our commitment to travel ensures
+      we can meet you wherever your vision takes us. Let’s collaborate to preserve life’s milestones in a
+      minimal, modern style that resonates long after the moment has passed.
     </p>
   </section>
 
-  <!-- PACKAGES SECTION -->
-  <section id="packages" class="packages-section">
-    <div class="section-header">
-      <h2>Pricing</h2>
-      <p>Choose from our most popular packages</p>
-    </div>
-    <div class="packages-grid">
-      <!-- Package P1 -->
-      <div class="package-card">
-        <div class="package-header">
-          <h3>P1</h3>
-          <span class="hours">5 hours</span>
-        </div>
-        <p class="price">$2,669</p>
-        <p class="description">Tailored to meet the unique essence of intimate moments in a beautiful and budget-friendly manner.</p>
-        <div class="addons">
-          <h4>Add-ons</h4>
-          <div class="addon-items">
-            <div class="addon-card">
-              <img src="https://via.placeholder.com/80" alt="Fine retouch">
-              <p>Fine retouch</p>
-            </div>
-            <div class="addon-card">
-              <img src="https://via.placeholder.com/80" alt="Engagement shoot">
-              <p>Engagement shoot</p>
-            </div>
-          </div>
-        </div>
-        <button class="btn btn-secondary open-modal" data-package="P1" data-price="2669">Learn More</button>
+  <!-- WORKS SECTION -->
+  <section id="works" class="works">
+    <h2>Featured Projects</h2>
+    <p>
+      Explore a curated selection of our most memorable shoots—ranging from heartfelt ceremonies to dynamic
+      brand campaigns.
+    </p>
+    <div class="grid">
+      <div class="grid-item">
+        <h3>Wedding Bliss</h3>
+        <p>Capturing the joy of a beachside ceremony with elegant, documentary-style photos.</p>
       </div>
-      <!-- Package P2 -->
-      <div class="package-card">
-        <div class="package-header">
-          <h3>P2</h3>
-          <span class="hours">Full day</span>
-        </div>
-        <p class="price">$3,336</p>
-        <p class="description">Ideal for capturing a full day of events with dedicated attention to every detail.</p>
-        <button class="btn btn-secondary open-modal" data-package="P2" data-price="3336">Learn More</button>
+      <div class="grid-item">
+        <h3>Fashion Forward</h3>
+        <p>A modern portrait series for an emerging clothing line, focusing on minimal backgrounds and bold poses.</p>
       </div>
-      <!-- Package P3 -->
-      <div class="package-card">
-        <div class="package-header">
-          <h3>P3</h3>
-          <span class="hours">Full day</span>
-        </div>
-        <p class="price">$3,458</p>
-        <p class="description">Comprehensive coverage, premium editing, and extended post-production for cinematic results.</p>
-        <button class="btn btn-secondary open-modal" data-package="P3" data-price="3458">Learn More</button>
+      <div class="grid-item">
+        <h3>Adventurous Spirits</h3>
+        <p>On-location shoots at mountain cabins, celebrating the free-spirited nature of the outdoors.</p>
       </div>
-      <!-- Package P4 -->
-      <div class="package-card">
-        <div class="package-header">
-          <h3>P4</h3>
-          <span class="hours">Multi day</span>
-        </div>
-        <p class="price">$4,686</p>
-        <p class="description">Perfect for multi-day shoots, extended events, or large-scale productions requiring multi-day coverage.</p>
-        <button class="btn btn-secondary open-modal" data-package="P4" data-price="4686">Learn More</button>
+      <div class="grid-item">
+        <h3>Editorial Dreams</h3>
+        <p>High-contrast studio sessions designed to highlight intricate details and dramatic lighting.</p>
       </div>
-    </div>
-  </section>
-
-  <!-- REVIEWS SECTION -->
-  <section id="reviews" class="reviews-section">
-    <div class="section-header">
-      <h2>Reviews</h2>
-    </div>
-    <div class="reviews-stats">
-      <div class="stat-box">
-        <h3>Five-Star Reviews</h3>
-        <p>605</p>
-      </div>
-      <div class="stat-box">
-        <h3>Years of Experience</h3>
-        <p>+9</p>
-      </div>
-      <div class="stat-box">
-        <h3>Works Shipped</h3>
-        <p>1527</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- AVAILABILITY SECTION -->
-  <section id="availability" class="availability-section">
-    <h2>Availability</h2>
-    <p>Check if your date is free and let's collaborate on your next project.</p>
-    <div class="calendar-container">
-      <label for="wedding-date" style="display:block; margin-bottom:0.5rem;">Select Your Date</label>
-      <input type="date" id="wedding-date">
     </div>
   </section>
 
   <!-- CONTACT SECTION -->
-  <section class="contact-section">
-    <h2>Contact Us</h2>
-    <form class="contact-form">
-      <div class="form-group">
-        <label for="name">Name *</label>
-        <input type="text" id="name" name="name" required>
+  <section id="contact" class="contact">
+    <h2>Get in Touch</h2>
+    <p>Ready to book your session or have a question? Let’s connect!</p>
+    <form id="contactForm">
+      <div>
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" required>
       </div>
-      <div class="form-group">
-        <label for="email">Email *</label>
-        <input type="email" id="email" name="email" required>
+      <div>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required>
       </div>
-      <div class="form-group">
-        <label for="message">Message *</label>
+      <div>
+        <label for="message">Message</label>
         <textarea id="message" name="message" rows="4" required></textarea>
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit">Send</button>
     </form>
+  </section>
+
+  <!-- LOCATION SECTION (Interactive Map) -->
+  <section id="location" class="location-section">
+    <h2>Find Us</h2>
+    <p>Based in Orange County, CA – Open to travel</p>
+    <div id="map"></div>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <p>© 2025 ElohimStudio.co. All rights reserved.</p>
+    <p>© 2025 ElohimStudio. All rights reserved.</p>
   </footer>
-
-  <!-- MODAL OVERLAY for Package Details -->
-  <div class="modal-overlay" id="package-modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 id="modal-title">Package Details</h3>
-        <button class="modal-close" id="close-modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <p id="modal-description">{/* Dynamically filled by JS */}</p>
-        <div class="addons-list">
-          <h4>Optional Add-ons</h4>
-          <div class="addon-item">
-            <input type="checkbox" id="addon-engagement">
-            <label for="addon-engagement">Engagement Shoot ($1,200)</label>
-          </div>
-          <div class="addon-item">
-            <input type="checkbox" id="addon-album">
-            <label for="addon-album">Premium Album ($900)</label>
-          </div>
-          <div class="addon-item">
-            <input type="checkbox" id="addon-teaser">
-            <label for="addon-teaser">Teaser Photos ($500)</label>
-          </div>
-        </div>
-      </div>
-      <div class="modal-actions">
-        <button class="btn btn-primary" id="confirm-purchase">Buy Now</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- SALES MODAL OVERLAY -->
-  <div class="modal-overlay" id="salesModal">
-    <div class="modal-content sales-modal">
-      <div class="modal-header">
-        <h3>Connect with Sales</h3>
-        <button class="modal-close" id="salesModalClose">&times;</button>
-      </div>
-      <div class="modal-body">
-        <p>Interested in our premium services? Let’s get in touch!</p>
-        <form id="salesForm">
-          <div class="form-group">
-            <label for="salesName">Name</label>
-            <input type="text" id="salesName" name="name" required>
-          </div>
-          <div class="form-group">
-            <label for="salesEmail">Email</label>
-            <input type="email" id="salesEmail" name="email" required>
-          </div>
-          <div class="form-group">
-            <label for="salesCompany">Company</label>
-            <input type="text" id="salesCompany" name="company">
-          </div>
-          <div class="form-group">
-            <label for="salesMessage">Message</label>
-            <textarea id="salesMessage" name="message" rows="3"></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary">Get in Touch</button>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- AFFIRM JS SNIPPET (Replace YOUR_PUBLIC_KEY with your actual key) -->
-  <script>
-    (function(m,a,t,h,i,n,k){
-      m['AffirmConfig'] = {
-        public_api_key: 'YOUR_PUBLIC_KEY',
-        script: 'https://cdn1.affirm.com/js/v2/affirm.js'
-      };
-      i=a.createElement(t); i.async=1; i.src=h;
-      n=a.getElementsByTagName(t)[0]; n.parentNode.insertBefore(i,n);
-    })(window,document,'script','https://cdn1.affirm.com/js/v2/affirm.js');
+  
+  <!-- Leaflet JS -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-Qg6fg9NhR9uK/bNn1jgpmmNacLF8ph1d2QQTBrN2jNs="
+    crossorigin="">
   </script>
 
-  <!-- MAIN JS for Modal and Sales Logic -->
   <script>
-    // Package Modal Logic
-    const openModalBtns = document.querySelectorAll('.open-modal');
-    const modalOverlay = document.getElementById('package-modal');
-    const closeModalBtn = document.getElementById('close-modal');
-    const modalTitle = document.getElementById('modal-title');
-    const modalDescription = document.getElementById('modal-description');
-    const confirmPurchaseBtn = document.getElementById('confirm-purchase');
+    document.addEventListener('DOMContentLoaded', () => {
+      /* CONTACT FORM SUBMISSION (Optional) */
+      const contactForm = document.getElementById('contactForm');
+      if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const formData = new FormData(contactForm);
+          const data = Object.fromEntries(formData.entries());
 
-    openModalBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const packageName = btn.getAttribute('data-package');
-        const packagePrice = btn.getAttribute('data-price');
-        modalTitle.textContent = `Package ${packageName} - $${packagePrice}`;
-        modalDescription.textContent = `You selected ${packageName}, priced at $${packagePrice}. Please select any add-ons below and proceed to checkout.`;
-        modalOverlay.classList.add('active');
-      });
-    });
-
-    closeModalBtn.addEventListener('click', () => {
-      modalOverlay.classList.remove('active');
-    });
-
-    confirmPurchaseBtn.addEventListener('click', () => {
-      const checkoutData = {
-        shipping: {
-          name: { full: "John Doe" },
-          address: {
-            line1: "1234 Test St",
-            city: "San Francisco",
-            state: "CA",
-            zipcode: "94110",
-            country: "USA"
+          try {
+            // Example: POST to /api/contact (Node/Express or Cloudflare Worker)
+            const response = await fetch('/api/contact', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            alert(result.message || 'Form submitted successfully!');
+            contactForm.reset();
+          } catch (error) {
+            console.error('Error submitting form:', error);
+            alert('Failed to submit form. Please try again.');
           }
-        },
-        items: [
-          {
-            display_name: modalTitle.textContent,
-            sku: modalTitle.textContent.toLowerCase().replace(/\s+/g, '-'),
-            unit_price: 300000, // Example: price in cents
-            qty: 1
-          }
-        ]
-      };
-      affirm.checkout(checkoutData);
-      affirm.checkout.open({
-        onFail: function(a) { console.log("Affirm checkout failed:", a); },
-        onSuccess: function(a) { console.log("Affirm checkout success:", a); },
-        onClose: function() { console.log("Affirm checkout closed"); }
-      });
-    });
-
-    // Sales Modal Logic
-    const salesModal = document.getElementById('salesModal');
-    const salesModalClose = document.getElementById('salesModalClose');
-    const salesForm = document.getElementById('salesForm');
-
-    // Show sales modal after 5 seconds if not already shown this session
-    setTimeout(() => {
-      if (!localStorage.getItem('salesModalShown')) {
-        salesModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        localStorage.setItem('salesModalShown', 'true');
+        });
       }
-    }, 5000);
 
-    // Close sales modal when close button or overlay is clicked
-    salesModalClose.addEventListener('click', () => {
-      salesModal.classList.remove('active');
-      document.body.style.overflow = 'auto';
-    });
-    salesModal.addEventListener('click', (e) => {
-      if (e.target === salesModal) {
-        salesModal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-      }
-    });
+      /* LEAFLET MAP INIT */
+      const map = L.map('map').setView([33.7456, -117.8677], 10);
+      // ^ Coordinates for Orange County, CA (adjust as needed)
 
-    // Handle sales form submission
-    salesForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const formData = new FormData(salesForm);
-      const data = Object.fromEntries(formData.entries());
-      fetch('/api/sales', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      })
-      .then(response => response.json())
-      .then(result => {
-        alert(result.message || 'Thank you for connecting with our sales team!');
-        salesModal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-        salesForm.reset();
-      })
-      .catch(error => {
-        console.error('Error submitting sales form:', error);
-        alert('There was an error submitting your request.');
-      });
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+      }).addTo(map);
+
+      // Add a marker with a popup
+      const marker = L.marker([33.7456, -117.8677]).addTo(map);
+      marker.bindPopup('<b>ElohimStudio</b><br>Orange County, CA').openPopup();
     });
   </script>
 </body>
-</html>
+</html>∏
