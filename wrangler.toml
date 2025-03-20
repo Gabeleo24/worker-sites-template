@@ -1,13 +1,7 @@
 name = "elohimstudio"
-main = "src/index.js"
+main = "src/worker.js"
 compatibility_date = "2025-03-19"
 
 workers_dev = false
 route = "elohimstudio.co/*"
 zone_id = "e5eba835459a32da5afcdb8a159b3b0e"
-
-[build]
-command = "npm install"
-[build.upload]
-format = "service-worker"
-dir = "public"
