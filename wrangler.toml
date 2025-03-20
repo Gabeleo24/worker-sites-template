@@ -1,9 +1,13 @@
-name = "worker-sites-template"
+name = "elohimstudio"
 main = "src/index.js"
-compatibility_date = "2022-05-06"
+compatibility_date = "2025-03-19"
 
 workers_dev = false
 route = "elohimstudio.co/*"
 zone_id = "e5eba835459a32da5afcdb8a159b3b0e"
 
-site = { bucket = "./public" }
+[build]
+command = "npm install"
+[build.upload]
+format = "service-worker"
+dir = "public"
