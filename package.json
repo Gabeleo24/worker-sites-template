@@ -13,5 +13,16 @@
     },
     "devDependencies": {
         "wrangler": "^4.2.0"
-    }
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Gabeleo24/worker-sites-template.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Gabeleo24/worker-sites-template/issues"
+    },
+    "homepage": "https://github.com/Gabeleo24/worker-sites-template#readme"
 }
